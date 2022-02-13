@@ -3,9 +3,8 @@ class postFix {
 	constructor(str) {
 		this.str = str;
 		//exp is an array containing each element of infix expression
-		this.exp = [];
+		// this.exp = [];
 		this.postfix = [];
-		this.result = 0;
 		this.map = new Map();
 		this.map.set("+", 1);
 		this.map.set("-", 1);
@@ -51,6 +50,7 @@ class postFix {
 			if (elm == "(") arr.push(elm);
 			else if (elm == ")") {
 				let sz = arr.length;
+				if (sz == 0) return [];
 				while (arr[sz - 1] != "(") {
 					this.postfix.push(arr.pop());
 					sz--;
@@ -66,7 +66,7 @@ class postFix {
 				while (1) {
 					let sz = arr.length;
 					let top = arr[sz - 1];
-					if (top == "(") break;
+					if (top == "(" || sz == 0) break;
 					let u = this.map.get(top);
 					let v = this.map.get(elm);
 					if (v <= u) {
@@ -83,16 +83,15 @@ class postFix {
 		let stk = [];
 		for (const elm of this.postfix) {
 			if (elm == "+" || elm == "-" || elm == "*" || elm == "/" || elm == "^") {
+				if (stk.length < 2) return (this.result = NaN);
 				let v = parseFloat(stk.pop());
 				let u = parseFloat(stk.pop());
 				stk.push(this.calculate(u, v, elm));
 			} else if (elm != "") stk.push(elm);
 		}
 		this.result = parseFloat(stk[0]);
-		return this.result;
+		return parseFloat(this.result.toPrecision(12));
 	}
 }
 //Sample Input
 //Expression contains number & '(' & ')' & '+' & '-' & '/' & '*' & '.' & '^',
-const eqn = new postFix("2+456.89+123*2.34-0.71^1");
-console.log(eqn.result);

@@ -7,10 +7,11 @@ function $$(str) {
 function $$$(str) {
 	return document.getElementsByTagName(str);
 }
-
+$("audio").style.display = "none";
 let buttons = $$$("button");
 for (const button of buttons) {
 	button.onclick = (event) => {
+		$("audio").play();
 		let char = event.target;
 		// console.log(char.classList.contains("backspace"));
 		let expressionNode = $("expression");
@@ -26,12 +27,19 @@ for (const button of buttons) {
 			expressionNode.innerText = expression;
 		} else if (ch == "=") {
 			let exp = new postFix(expression);
-			if (isNaN(exp.result) || exp.result == Infinity) {
-				displayNode.innerText = "*Invalid Expression or Math Error";
+			console.log(exp.result);
+			if (isNaN(exp.result)) {
+				displayNode.innerText = "*Invalid Expression";
+				displayNode.style.color = "red";
+				displayNode.style.fontSize = "16px";
+			} else if (exp.result == Infinity) {
+				displayNode.innerText = "*Math Error";
 				displayNode.style.color = "red";
 				displayNode.style.fontSize = "16px";
 			} else {
 				displayNode.innerText = `= ${exp.result}`;
+				displayNode.style.color = "white";
+				displayNode.style.fontSize = "32px";
 			}
 		} else expressionNode.innerText += ch;
 	};
