@@ -20,6 +20,7 @@ header h1 {
 }
 main .container {
 	width: 300px;
+	overflow: hidden;
 	height: 550px;
 	background: linear-gradient(191.34deg, #17181a -4.95%, #17181a 103.74%);
 	border-radius: 39px;
